@@ -1,26 +1,44 @@
-specVersion: 0.0.1
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: NFTXVault
+    name: NFTXVaultFactory
     network: mainnet
     source:
-      address: "0xBE86f647b167567525cCAAfcd6f881F1Ee558216"
-      abi: NFTXVault
+      address: "0x612447E8d0BDB922059cE048bb5a7CeF9e017812"
+      abi: NFTXVaultFactory
+      startBlock: 15827936
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - AdminChanged
-        - Upgraded
+        - NewVault
       abis:
-        - name: NFTXVault
+        - name: NFTXVaultFactory
           file: ./abis/NFTXVault.json
       eventHandlers:
-        - event: AdminChanged(address,address)
-          handler: handleAdminChanged
-        - event: Upgraded(indexed address)
-          handler: handleUpgraded
+        - event: NewVault(indexed uint256,address,address)
+          handler: handleNewVault
+      file: ./src/nftx-vault.ts
+  - kind: ethereum
+    name: NFTXVaultTemplate
+    network: mainnet
+    source:
+      address: "0xe8B6820b74533c27786E4724a578Bfca28D97BD1" 
+      abi: NFTXVaultTemplate
+      startBlock: 12675814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VaultInit
+      abis:
+        - name: NFTXVaultTemplate
+          file: ./abis/NFTXVaultTemplate.json
+      eventHandlers:
+        - event: VaultInit(indexed uint256,address,bool,bool)
+          handler: handleNewVaultInit
       file: ./src/nftx-vault.ts
