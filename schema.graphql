@@ -1,9 +1,14 @@
 type Vault @entity {
   id: ID!
   vaultId: BigInt!
-  is1155: Boolean!
-  allowAllItems: Boolean!
-  assetAddress: Bytes!
+  name: String!
+  symbol: String!
+}
+type VaultTemplate @entity {
+  id: ID!
+  vaultId: BigInt!
   vaultAddress: Bytes!
-  vaultBalance: BigInt!
+  assetAddress: Bytes!
+  is1155: Boolean
+  allowAllItems: Boolean
 }
