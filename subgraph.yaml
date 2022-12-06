@@ -14,7 +14,7 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Vault
+        - Admin
       abis:
         - name: NFTXVaultFactory
           file: ./abis/NFTXVaultFactory.json
@@ -33,7 +33,7 @@ templates:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - VaultTemplate
+        - Vault
       abis:
         - name: NFTXVault
           file: ./abis/NFTXVault.json
@@ -41,3 +41,21 @@ templates:
         - event: NewVault(indexed uint256,address,address)
           handler: handleCreateNewVault
       file: ./src/nftx-vault-template.ts
+  - name: VaultInit
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: NFTXVaultTemplate
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+      abis:
+        - name: NFTXVaultTemplate
+          file: ./abis/NFTXVaultTemplate.json
+      eventHandlers:
+        - event: VaultInit(indexed uint256,address,bool,bool)
+          handler: handleCreateNewVaultInit
+      file: ./src/nftx-vault.ts

@@ -1,14 +1,11 @@
-// import { Bytes, BigInt } from "@graphprotocol/graph-ts";
+import { VaultInit } from "../generated/NFTXVaultTemplate/NFTXVaultTemplate";
+import { Vault } from "../generated/schema";
 
-// import { Vault, VaultTemplate } from "../generated/schema";
-
-// export function handleCreateNewVault(vault: NewVault): void {
-//   let address = vault.address.toHex();
-//   let newVault = new VaultTemplate(address);
-//   if (newVault != null) {
-//     newVault.vaultId = vault.params.vaultId;
-//     newVault.vaultAddress = vault.params.vaultAddress;
-//     newVault.assetAddress = vault.params.assetAddress;
-//   }
-//   newVault.save();
-// }
+export function handleCreateNewVaultInit(vaultInit: VaultInit): void {
+  let newVault = Vault.load(vaultInit.params.vaultId.toHex());
+  if (newVault == null) {
+    newVault = new Vault(vaultInit.params.vaultId.toHex());
+    newVault.vaultId = vaultInit.params.vaultId;
+  }
+  newVault.save();
+}
